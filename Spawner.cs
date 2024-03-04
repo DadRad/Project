@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private EnemyBehaviour _enemyPrefab;
+    [SerializeField] private EnemyMovement _enemyPrefab;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _spawnInterval = 2f;
     [SerializeField] private Transform _target;
@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            EnemyBehaviour enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+            EnemyMovement enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
             Vector3 direction = _target.position - enemy.transform.position;
 
             enemy.SetSpeed(_movementSpeed);

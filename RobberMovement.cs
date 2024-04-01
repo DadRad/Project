@@ -5,7 +5,7 @@ public class RobberMovement : MonoBehaviour
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _rotationSpeed;
 
-    void Update()
+    private void Update()
     {
         Move();
     }
@@ -32,7 +32,7 @@ public class RobberMovement : MonoBehaviour
         }
     }
 
-    void RotatePlayer(int direction)
+    private void RotatePlayer(int direction)
     {
         float rotation = direction * _rotationSpeed * Time.deltaTime;
         transform.Rotate(0, rotation, 0);

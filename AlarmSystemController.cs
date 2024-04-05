@@ -4,7 +4,7 @@ using UnityEngine;
 public class AlarmSystemController : MonoBehaviour
 {
     private AlarmSoundController _alarmSoundController;
-    private bool _isPlayerInside = false;
+    private RobberMovement _robberMovement;
 
     private void Start()
     {
@@ -13,21 +13,16 @@ public class AlarmSystemController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            _isPlayerInside = true;
-            if (_isPlayerInside)
-            {
-                _alarmSoundController.ActivateAlarm();
-            }
+        if (other.TryGetComponent(out _robberMovement))
+        { 
+            _alarmSoundController.ActivateAlarm();
         }
     }
 
     private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            _isPlayerInside = false;
+    { 
+        if (other.TryGetComponent(out _robberMovement))
+        { 
             _alarmSoundController.DeactivateAlarm();
         }
     }

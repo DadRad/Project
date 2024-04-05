@@ -3,38 +3,27 @@ using UnityEngine;
 public class RobberMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
-    [SerializeField] private float _rotationSpeed;
 
     private void Update()
     {
         Move();
+        SideMove();
     }
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector3.forward * _movementSpeed * Time.deltaTime);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.back * _movementSpeed * Time.deltaTime);
-        }
+        float moveInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            RotatePlayer(-1);
-        }
+        float moveAmount = moveInput * _movementSpeed * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            RotatePlayer(1);
-        }
+        transform.Translate(0, 0, moveAmount);
     }
-
-    private void RotatePlayer(int direction)
+    private void SideMove()
     {
-        float rotation = direction * _rotationSpeed * Time.deltaTime;
-        transform.Rotate(0, rotation, 0);
+        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        float moveAmount = moveInput * _movementSpeed * Time.deltaTime;
+
+        transform.Translate(moveAmount, 0, 0);
     }
 }

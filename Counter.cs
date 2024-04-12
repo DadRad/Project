@@ -47,11 +47,13 @@ public class Counter : MonoBehaviour
 
     private IEnumerator IncrementCounter(float delay)
     {
+        WaitForSeconds wait = new WaitForSeconds(delay);
+    
         while (true)
         {
             _currentNumber++;
             DisplayCount(_currentNumber);
-            yield return new WaitForSeconds(delay);
+            yield return wait;
         }
     }
 

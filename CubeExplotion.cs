@@ -12,6 +12,7 @@ public class CubeExplotion : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            _camera = Camera.main;
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -25,22 +26,14 @@ public class CubeExplotion : MonoBehaviour
     private void ExplodeCube(GameObject cube)
     {
         Transform parentTransform = cube.transform;
-        Vector3 explosionPosition = parentTransform.position;
 
         Destroy(cube);
+        SpawnCubes(parentTransform);
 
-        Vector3 explosionCenter = explosionPosition;
-        Collider[] colliders = Physics.OverlapSphere(explosionCenter, 2f);
-
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(_explosionForce, explosionCenter, 2f);
-            }
-        }
-
+        
+    }
+    private void SpawnCubes(Transform parentTransform)
+    {
         int minRandomValue = 2;
         int maxRandomValue = 7;
         int numCubesToCreate = Random.Range(minRandomValue, maxRandomValue);
@@ -50,13 +43,24 @@ public class CubeExplotion : MonoBehaviour
             Rigidbody newCube = Instantiate(_cubePrefab, parentTransform.position, Quaternion.identity);
             newCube.transform.localScale = parentTransform.localScale * 0.5f;
             newCube.GetComponent<Renderer>().material.color = Random.ColorHSV();
-
-            Rigidbody rb = newCube.GetComponent<Rigidbody>();
-            
-            if (newCube.TryGetComponent<Rigidbody>(out rb))
-            {
-                rb.useGravity = true;
-            }
         }
+    }
+    private void PushCubes(GameObject cube)
+    {
+        Transform parentTransform = cube.transform;
+    Vector3 explosionPosition = parentTransform.position;
+    Vector3 explosionCenter = explosionPosition;
+
+    Collider[] colliders = Physics.OverlapSphere(explosionCenter, 2f);
+
+    foreach (Collider hit in colliders)
+    {
+        Rigidbody rigidBody = hit.GetComponent<Rigidbody>();
+
+        if (rigidBody != null)
+        {
+            rigidBody.AddExplosionForce(_explosionForce, explosionCenter, 2f);
+        }
+    }
     }
 }

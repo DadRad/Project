@@ -12,6 +12,7 @@ public class Exploder : MonoBehaviour
     {
         _exploder = GetComponent<Exploder>();
     }
+    
     public void Explode(Rigidbody cube, Transform transform)
     {
         cube.AddExplosionForce(_explotionForce,transform.position, _explosionRadius);
